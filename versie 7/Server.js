@@ -1,0 +1,122 @@
+const express = require('express');
+const mysql = require('mysql2');
+const cors = require('cors');
+const path = require('path');
+
+const app = express();
+const port = 3000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'bevolkingsregister_db'
+});
+
+db.connect(err => {
+  if (err) console.error('Databasefout:', err);
+  else console.log('Verbonden met de database');
+});
+
+// Alle burgers ophalen
+app.get('/api/burgers', (req, res) => {
+  db.query('SELECT * FROM burgers', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+// Nieuwe burger toevoegen
+app.post('/api/burgers', (req, res) => {
+  const { Voornaam, Achternaam, Geboortedatum, DNA_code, Familie_code } = req.body;
+  if (!Voornaam || !Achternaam || !Geboortedatum || !DNA_code || !Familie_code)
+    return res.status(400).json({ error: 'Alle velden zijn verplicht' });
+
+  db.query(
+    'INSERT INTO burgers (Voornaam, Achternaam, Geboortedatum, DNA_code, Familie_code) VALUES (?, ?, ?, ?, ?)',
+    [Voornaam, Achternaam, Geboortedatum, DNA_code, Familie_code],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ success: true, id: result.insertId });
+    }
+  );
+});
+
+// Bestaande burger bewerken
+app.put('/api/burgers/:id', (req, res) => {
+  const { id } = req.params;
+  const { Voornaam, Achternaam, Geboortedatum, DNA_code, Familie_code } = req.body;
+
+  db.query(
+    'UPDATE burgers SET Voornaam=?, Achternaam=?, Geboortedatum=?, DNA_code=?, Familie_code=? WHERE Burger_id=?',
+    [Voornaam, Achternaam, Geboortedatum, DNA_code, Familie_code, id],
+    err => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ success: true });
+    }
+  );
+});
+
+// Burger verwijderen
+app.delete('/api/burgers/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM burgers WHERE Burger_id=?', [id], err => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
+});
+
+// Huwelijk registreren
+app.post('/api/huwelijk', (req, res) => {
+  const { partner1_id, partner2_id, datum } = req.body;
+
+  if (!partner1_id || !partner2_id || !datum) {
+    return res.status(400).json({ error: 'Alle velden zijn verplicht' });
+  }
+
+  // inlezen DNA codes
+  db.query('SELECT Burger_id, DNA_code FROM burgers WHERE Burger_id IN (?, ?)', 
+    [partner1_id, partner2_id], 
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      if (results.length !== 2) return res.status(404).json({ error: 'Een of beide burgers bestaan niet' });
+
+      // familiecode DNA1 + DNA2
+      const dna1 = results.find(b => b.Burger_id == partner1_id).DNA_code;
+      const dna2 = results.find(b => b.Burger_id == partner2_id).DNA_code;
+      const nieuweFamiliecode = dna1 + dna2;
+
+      // Huwelijk opslaan
+      db.query(
+        'INSERT INTO huwelijken (Partner1_id, Partner2_id, Datum, Familie_code) VALUES (?, ?, ?, ?)',
+        [partner1_id, partner2_id, datum, nieuweFamiliecode],
+        (err) => {
+          if (err) return res.status(500).json({ error: err.message });
+
+          // Familie_code updaten
+          db.query(
+            'UPDATE burgers SET Familie_code = ? WHERE Burger_id IN (?, ?)',
+            [nieuweFamiliecode, partner1_id, partner2_id],
+            (err) => {
+              if (err) return res.status(500).json({ error: err.message });
+
+              res.json({ success: true, familiecode: nieuweFamiliecode });
+            }
+          );
+        }
+      );
+    }
+  );
+});
+
+// Frontend routes
+app.get('/Burger', (req, res) => res.sendFile(path.join(__dirname, 'public', 'Burger.html')));
+app.get('/Ambtenaar', (req, res) => res.sendFile(path.join(__dirname, 'public', 'Ambtenaar.html')));
+app.get('/', (req, res) => res.send('<a href="/Burger">Burger</a> | <a href="/Ambtenaar">Ambtenaar</a>'));
+
+app.listen(port, () => console.log(`Server draait op http://localhost:${port}`));
