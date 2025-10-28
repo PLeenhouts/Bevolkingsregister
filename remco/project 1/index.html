@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Bevolkingsregister</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    section { margin-bottom: 30px; }
+    input, select { margin: 5px; }
+    .alarm { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🗂️ Bevolkingsregister</h1>
+
+  <!-- Burger toevoegen -->
+  <section>
+    <h2>👤 Burger toevoegen</h2>
+    <input id="voornaam" placeholder="Voornaam">
+    <input id="achternaam" placeholder="Achternaam">
+    <input id="geboortedatum" type="date">
+    <button onclick="addBurger()">Toevoegen</button>
+    <div id="burgerResult"></div>
+  </section>
+
+  <!-- Burger wijzigen -->
+  <section>
+    <h2>✏️ Burger wijzigen</h2>
+    <input id="wijzigId" placeholder="ID-code">
+    <input id="wijzigVoornaam" placeholder="Nieuwe voornaam">
+    <input id="wijzigAchternaam" placeholder="Nieuwe achternaam">
+    <input id="wijzigGeboortedatum" type="date">
+    <button onclick="updateBurger()">Wijzigen</button>
+    <div id="wijzigResult"></div>
+  </section>
+
+  <!-- Huwelijk invoeren -->
+  <section>
+    <h2>💍 Huwelijk invoeren</h2>
+    <input id="partner1" placeholder="Partner 1 ID">
+    <input id="partner2" placeholder="Partner 2 ID">
+    <button onclick="addHuwelijk()">Huwelijk registreren</button>
+    <div id="huwelijkResult"></div>
+  </section>
+
+  <!-- Kind toevoegen -->
+  <section>
+    <h2>👶 Kind toevoegen</h2>
+    <input id="kindVoornaam" placeholder="Voornaam kind">
+    <input id="kindGeboortedatum" type="date">
+    <input id="vaderId" placeholder="Vader ID">
+    <input id="moederId" placeholder="Moeder ID">
+    <button onclick="addKind()">Kind toevoegen</button>
+    <div id="kindResult"></div>
+  </section>
+
+  <script>
+    const api = 'http://localhost:3000';
+
+    function addBurger() {
+      const data = {
+        voornaam: voornaam.value,
+        achternaam: achternaam.value,
+        geboortedatum: geboortedatum.value
+      };
+      fetch(`${api}/burger`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(res => res.json())
+        .then(result => burgerResult.innerText = `Burger toegevoegd met ID ${result.id_code}`);
+    }
+
+    function updateBurger() {
+      const data = {
+        voornaam: wijzigVoornaam.value,
+        achternaam: wijzigAchternaam.value,
+        geboortedatum: wijzigGeboortedatum.value
+      };
+      fetch(`${api}/burger/${wijzigId.value}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(res => res.json())
+        .then(result => wijzigResult.innerText = result.status);
+    }
+
+    function addHuwelijk() {
+      const data = {
+        partner1_id: partner1.value,
+        partner2_id: partner2.value
+      };
+      fetch(`${api}/huwelijk`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(res => res.json())
+        .then(result => {
+          if (result.alarm) {
+            huwelijkResult.innerHTML = `<span class="alarm">${result.alarm}</span>`;
+          } else {
+            huwelijkResult.innerText = result.status;
+          }
+        });
+    }
+
+    function addKind() {
+      const data = {
+        voornaam: kindVoornaam.value,
+        geboortedatum: kindGeboortedatum.value,
+        vader_id: vaderId.value,
+        moeder_id: moederId.value
+      };
+      fetch(`${api}/kind`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(res => res.json())
+        .then(result => kindResult.innerText = result.status);
+    }
+  </script>
+</body>
+</html>
