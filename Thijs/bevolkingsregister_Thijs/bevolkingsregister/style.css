@@ -1,0 +1,267 @@
+:root {
+  --sky-blue: #aee0ff;
+  --simpsons-yellow: #ffe14f;
+  --grass-green: #6ed36e;
+  --pink: #ff7da6;
+  --white: #fff;
+  --text: #222;
+}
+
+/* Achtergrond en basis */
+body {
+  background: linear-gradient(to bottom, var(--sky-blue), #fff);
+  font-family: 'Comic Sans MS', 'Poppins', sans-serif;
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+/* Header bovenaan */
+header {
+  background-color: var(--simpsons-yellow);
+  border-bottom: 4px solid #ffcc00;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.app-title {
+  text-shadow: 2px 2px 0 #fff;
+}
+.title-main {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #0055a4;
+}
+.title-sub {
+  color: #3d3d3d;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Login box en user box */
+.login-panel {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 0.75rem 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-width: 260px;
+  max-width: 360px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  flex: 1 1 120px;
+}
+
+.field-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0055a4;
+  margin-bottom: 0.2rem;
+}
+
+.field-group input {
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.8rem;
+}
+
+.btn {
+  background: var(--grass-green);
+  color: var(--white);
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+.btn:hover {
+  background: #55b155;
+}
+
+.btn-logout {
+  background: var(--pink);
+}
+
+.login-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pink);
+}
+
+.user-info {
+  font-size: 0.9rem;
+  color: #0055a4;
+}
+.user-name {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.user-meta {
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.4;
+}
+.role-chip {
+  background: var(--sky-blue);
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+  color: #0055a4;
+  font-size: 0.7rem;
+}
+
+/* Main layout */
+main {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+/* Panel styling */
+.panel {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  min-height: 200px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.panel-title {
+  font-weight: 800;
+  color: #0055a4;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.badge {
+  background: var(--pink);
+  color: var(--white);
+  font-size: 0.7rem;
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Waarschuwingen / status */
+.auth-warning {
+  background: #ffecec;
+  color: #c62828;
+  border: 1px solid #f5aaaa;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.admin-msg,
+.user-msg {
+  background: #fffbea;
+  border-left: 5px solid var(--simpsons-yellow);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #3d3d3d;
+  line-height: 1.4;
+}
+
+/* Labels boven blokken in panelen */
+.section-label {
+  font-weight: 700;
+  color: #0055a4;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* Resultaat weergave */
+.zoek-resultaat {
+  background: #f7fbff;
+  border: 1px solid #b5e0ff;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: monospace;
+  white-space: pre-wrap;
+  line-height: 1.4;
+  font-size: 0.8rem;
+  min-height: 5rem;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  color: #003e6d;
+}
+
+/* Edit form grid */
+.edit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-save {
+  background: var(--grass-green);
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.save-status {
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  min-height: 1.2rem;
+  color: #444;
+}
+.btn-edit-start {
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: .8rem;
+  line-height: 1.2;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+.btn-edit-start[disabled] {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.mini-hint {
+  font-size: .75rem;
+  font-weight: 600;
+  color: #555;
+  margin-top: .5rem;
+  line-height: 1.3;
+}
