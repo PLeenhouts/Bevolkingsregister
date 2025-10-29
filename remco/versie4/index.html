@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Welkom</title>
+  <link rel="stylesheet" href="stijl.css">
+  <style>
+    .keuze-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-image: url('downloaden.jpeg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 1px 1px 5px black;
+    }
+
+    .keuze-container h1 {
+      font-size: 3em;
+      margin-bottom: 40px;
+    }
+
+    .keuze-container button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1e90ff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .keuze-container button:hover {
+      background-color: #63b3ed;
+    }
+  </style>
+</head>
+<body>
+  <div class="keuze-container">
+    <h1>Welkom bij het Bevolkingsregister</h1>
+    <button onclick="location.href='ambtenaar.html'">👨‍💼 Ambtenaar</button>
+    <button onclick="location.href='burger.html'">🧑 Burger</button>
+  </div>
+</body>
+</html>
