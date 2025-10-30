@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 29 okt 2025 om 18:15
+-- Gegenereerd op: 30 okt 2025 om 17:00
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.0.30
 
@@ -31,17 +31,26 @@ CREATE TABLE `burger` (
   `id_code` int(11) NOT NULL,
   `voornaam` varchar(50) DEFAULT NULL,
   `achternaam` varchar(50) DEFAULT NULL,
-  `geboortedatum` date DEFAULT NULL
+  `geboortedatum` date DEFAULT NULL,
+  `vader_id` int(11) DEFAULT NULL,
+  `moeder_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `burger`
 --
 
-INSERT INTO `burger` (`id_code`, `voornaam`, `achternaam`, `geboortedatum`) VALUES
-(1, 'kans', 'kind', '2025-10-15'),
-(2, 'janneke', 'piet ', '2025-10-01'),
-(3, 'miranda', 'vos', '2025-09-30');
+INSERT INTO `burger` (`id_code`, `voornaam`, `achternaam`, `geboortedatum`, `vader_id`, `moeder_id`) VALUES
+(1, '', '', '0000-00-00', NULL, NULL),
+(2, 'janneke', 'piet ', '0000-00-00', NULL, NULL),
+(3, 'miranda', 'vos', '2025-09-30', NULL, NULL),
+(4, 'Jan', 'Opa', '1940-01-01', NULL, NULL),
+(5, 'Marie', 'Oma', '1942-02-02', NULL, NULL),
+(6, 'Piet', 'Vader', '1965-03-03', 1, 2),
+(7, 'Els', 'Moeder', '1967-04-04', 1, 2),
+(8, 'Tom', 'Zoon', '1990-05-05', 3, 4),
+(9, 'Lisa', 'Dochter', '1992-06-06', 3, 4),
+(10, 'Anna', 'Vrij', '1993-07-07', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -54,6 +63,18 @@ CREATE TABLE `huwelijk` (
   `partner1_id` int(11) DEFAULT NULL,
   `partner2_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `huwelijk`
+--
+
+INSERT INTO `huwelijk` (`id`, `partner1_id`, `partner2_id`) VALUES
+(1, 8, 10),
+(2, 2, 3),
+(3, 3, 4),
+(4, 3, 4),
+(5, 3, 4),
+(6, 8, 10);
 
 -- --------------------------------------------------------
 
@@ -110,13 +131,13 @@ ALTER TABLE `kind`
 -- AUTO_INCREMENT voor een tabel `burger`
 --
 ALTER TABLE `burger`
-  MODIFY `id_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT voor een tabel `huwelijk`
 --
 ALTER TABLE `huwelijk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT voor een tabel `kind`
