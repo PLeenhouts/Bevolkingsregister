@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sci-fi.css">
+
+</head>
+<body>
+     <div class="container">
+    <div class="main-content">
+
+    <h1>Burger Database</h1>
+    <form id="burgerForm">
+        <!-- <input type="number" id="id" placeholder="Id" required> // Id wordt automatisch gegenereerd -->
+        <input type="text" id="naam" placeholder="Naam" required>
+        <input type="text" id="vader" placeholder="Vader" required>
+        <input type="text" id="moeder" placeholder="Moeder" required>
+        <button type="submit">Toevoegen</button>
+    </form>
+    
+    <h2>Alle Burgers</h2>
+   <!-- <div id="burgerLijst"></div> -->
+
+    <br></br>
+
+    <h2>Burger Zoeken</h2>
+    <!-- knop om te zoeken op Id met uityvoeveld-->
+    <input type="number" id="zoekId" placeholder="Burger ID" />
+    <button onclick="zoekBurger()">Zoek burger</button>
+    <div id="gevondenBurger"></div>
+
+    <br><br>
+
+    <h2>Burger Bewerken</h2>
+  <form id="burgereditForm">
+        <input type="number" id="updateId" placeholder="Id" required> 
+        <input type="text" id="updateNaam" placeholder="Naam" required>
+        <input type="text" id="updateVader" placeholder="Vader" required>
+        <input type="text" id="updateMoeder" placeholder="Moeder" required>
+         <button onclick="updateBurger()">Aanpassen</button>
+    </form>
+
+    <a href="stamboom.html">naar stamboom</a>
+  </div>
+  
+ <div id="burgerLijst" class="sidebar"></div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
